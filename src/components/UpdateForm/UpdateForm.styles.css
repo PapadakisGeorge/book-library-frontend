@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.update-form-wrapper {
+    position: relative;
+    background: rgb(127, 153, 126);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.05);
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.update-form-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 55px;
+    width: 100%;
+    font-size: 25px;
+    font-weight: 600;
+    color:rgb(12, 52, 71)
+}

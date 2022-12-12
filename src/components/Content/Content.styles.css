@@ -1,0 +1,6 @@
+.content-component {
+    background-color:rgb(49, 53, 85);
+    color: rgb(168, 158, 158);
+    height: 100vw;
+    display: table;
+}
