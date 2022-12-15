@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import UpdateFormComponent from '../UpdateForm/UpdateForm.component';
+import FormComponent from '../Form/Form.component';
 import './Modal.styles.css';
+import axios from '../../axios/axiosConfig';
 
 function ModalComponent(props: any): React.ReactElement {
 
@@ -9,6 +10,12 @@ function ModalComponent(props: any): React.ReactElement {
   const [enteredSummary, setEnteredSummary] = useState('');
   const [enteredDate, setEnteredDate] = useState('');
   const [enteredImageUrl, setEnteredImageUrl] = useState('');
+
+  const updateBook = (enteredData: any) => {
+    axios.put('/update', enteredData).then(() => {
+      axios.get('/all').then((response) => props.setBooks(response.data));
+    });
+  };
 
   const updateBookHandler = () => {
     const enteredData =  {
@@ -19,42 +26,67 @@ function ModalComponent(props: any): React.ReactElement {
       imageUrl: enteredImageUrl || props.bookData.imageUrl,
       originalPublicationDate: enteredDate || props.bookData.originalPublicationDate,
     };
-    props.updateBook(props.index, enteredData);
+    console.log(enteredData)
+    updateBook(enteredData);
     props.closeModal();
   };
 
+  const addBook = (enteredData: any) => {
+    axios.post('/add', enteredData).then(() => {
+      axios.get('/all').then((response) => props.setBooks(response.data));
+    });
+  }
+  
+  const addBookDataHandler = () => {
+    const enteredData =  {
+      id: Math.floor(Math.random() * 1000000),
+      title: enteredTitle || 'No title',
+      author: enteredAuthor || 'No author',
+      summary: enteredSummary || 'No summary',
+      imageUrl: enteredImageUrl ||'No image url',
+      originalPublicationDate: enteredDate || 1900,
+    };
+
+    addBook(enteredData);
+    props.closeModal();
+  }
+
+
   const closeModalHandler = () => props.closeModal();
+  
+  const submitData = props.mode === 'Update'? updateBookHandler : addBookDataHandler;
+  const modalTitle = `${props.mode} Book Data`
   
   return (
       <div className="modal-background">
         <div className="modal-container">
           <div className="modal-title">
-            <h1>Update Book Data</h1>
+            <h1>{modalTitle}</h1>
           </div>
           <div className="modal-body">
-            <UpdateFormComponent 
+            <FormComponent 
               title='Title' 
               setData={setEnteredTitle}/>
-            <UpdateFormComponent 
+            <FormComponent 
               title='Author'
               setData={setEnteredAuthor}
               />
-            <UpdateFormComponent 
+            <FormComponent 
               title='Summary'
               setData={setEnteredSummary} />
-            <UpdateFormComponent 
+            <FormComponent 
               title='Publication Date'
               setData={setEnteredDate}/>
-            <UpdateFormComponent 
+            <FormComponent 
               title='Image Url'
               setData={setEnteredImageUrl} />
           </div>
           <div className="modal-footer">
             <button 
-              onClick={updateBookHandler}
-              className="update-button button"
+              onClick={submitData}
+              className="submit-button button"
             >
-              Update
+              {props.mode}
             </button>
             <button 
               onClick={closeModalHandler}

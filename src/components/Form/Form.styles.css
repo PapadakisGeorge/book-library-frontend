@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-.update-form-wrapper {
+.form-wrapper {
     position: relative;
     background: rgb(127, 153, 126);
     padding: 30px;
@@ -15,7 +15,7 @@
     margin-top: 10px;
 }
 
-.update-form-header {
+.form-header {
     display: flex;
     align-items: center;
     justify-content: center;
